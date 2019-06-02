@@ -1,11 +1,11 @@
 import Nexmo from 'nexmo';
 import express from 'express';
-const app = express()
+import config from './config';
+const app = express();
 require('dotenv').config();
 
 // Setting the template engine
 app.set("view engine", "ejs");
-
 import bodyParser from 'body-parser';
 const port = process.env.PORT;
 // const jsonParser = bodyParser.json();
@@ -27,10 +27,7 @@ app.post('/sms', (req, res) => {
     const from = req.body.sender;
     const to = req.body.receiver;
     const text = req.body.message;
-    const nexmo = new Nexmo({
-        apiKey: process.env.apiKey,
-        apiSecret: process.env.apiSecret,
-    });
+    const nexmo = new Nexmo(config);
     nexmo.message.sendSms(from, to, text,  (err , messaged) => {
         (err) ? res.redirect ('back') : res.redirect('/success');
     });
