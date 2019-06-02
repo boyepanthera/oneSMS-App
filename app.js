@@ -1,5 +1,6 @@
 import Nexmo from 'nexmo';
 import express from 'express';
+import config from './config'
 const app = express();
 require('dotenv').config();
 
@@ -26,10 +27,7 @@ app.post('/sms', (req, res) => {
     const from = req.body.sender;
     const to = req.body.receiver;
     const text = req.body.message;
-    const nexmo = new Nexmo({
-        apiKey: 'facbb13b',
-        apiSecret: 'jVkx7QPnGIuZWfLT',
-    });
+    const nexmo = new Nexmo(config);
     nexmo.message.sendSms(from, to, text,  (err , messaged) => {
         (err) ? res.redirect ('back') : res.redirect('/success');
     });
